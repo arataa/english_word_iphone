@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "word.h"
 
 @interface DetailViewController : UIViewController <UISplitViewControllerDelegate>
 
-@property (strong, nonatomic) id detailItem;
+@property (strong, nonatomic) Word *detailItem;
+@property (weak, nonatomic) IBOutlet UILabel *english;
 
 @property (strong, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
+@property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel2;
 
 @end

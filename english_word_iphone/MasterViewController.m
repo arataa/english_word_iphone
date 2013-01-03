@@ -11,7 +11,10 @@
 #import "DetailViewController.h"
 
 @interface MasterViewController ()
+@property (strong, nonatomic) NSMutableArray *items;
+@property (strong, nonatomic) NSMutableArray *itemsCopy;
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
+- (void) searchTableView;
 @end
 
 @implementation MasterViewController
@@ -19,6 +22,9 @@
 @synthesize detailViewController = _detailViewController;
 @synthesize fetchedResultsController = __fetchedResultsController;
 @synthesize managedObjectContext = __managedObjectContext;
+@synthesize searchText = _searchText;
+@synthesize items = _items;
+@synthesize itemsCopy = _itemsCopy;
 
 - (void)awakeFromNib
 {
@@ -47,10 +53,27 @@
 
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject)];
     self.navigationItem.rightBarButtonItem = addButton;
+   
+    //searchボタンをdoneに
+    for (UIView *searchBarSubview in [self.searchText subviews]) {
+        if ([searchBarSubview conformsToProtocol:@protocol(UITextInputTraits)]) {
+            @try {
+                [(UITextField *)searchBarSubview setReturnKeyType:UIReturnKeyDone];
+                [(UITextField *)searchBarSubview setKeyboardAppearance:UIKeyboardAppearanceAlert];
+                [(UITextField *)searchBarSubview setEnablesReturnKeyAutomatically:NO];
+            }
+            @catch (NSException * e) {
+                // ignore exception
+            }
+        }
+    }
+    
 }
 
 - (void)viewDidUnload
 {
+    [self setSearchText:nil];
+    
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -94,8 +117,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
-    return [sectionInfo numberOfObjects];
+    return [self.items count];
 }
 
 // Customize the appearance of table view cells.
@@ -147,8 +169,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        NSManagedObject *selectedObject = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-        self.detailViewController.detailItem = selectedObject;    
+        NSManagedObject *selectedObject = [self.items objectAtIndex:indexPath.row];
+        self.detailViewController.detailItem = (Word *)selectedObject;    
     }
 }
 
@@ -156,8 +178,8 @@
 {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSManagedObject *selectedObject = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-        [[segue destinationViewController] setDetailItem:selectedObject];
+        NSManagedObject *selectedObject = [self.items objectAtIndex:indexPath.row];
+        [[segue destinationViewController] setDetailItem:(Word *)selectedObject];
     }
 }
 
@@ -172,6 +194,14 @@
     Word *word = [[Word alloc] init];
     //[word get_words_rest];
     __fetchedResultsController = [word get];
+    
+    self.items = [[NSMutableArray alloc] init];
+    self.itemsCopy = [[NSMutableArray alloc] init];
+    id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:0];
+    for ( NSManagedObject *data in [sectionInfo objects] ){
+        [self.items addObject:data];
+        [self.itemsCopy addObject:data];
+    }
     return __fetchedResultsController;
 }    
 
@@ -237,8 +267,9 @@
 
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    NSManagedObject *managedObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text = [[managedObject valueForKey:@"english"] description];
+    NSManagedObject *obj = [self.items objectAtIndex:indexPath.row];
+    cell.textLabel.text       = [obj valueForKey:@"english"];
+    cell.detailTextLabel.text = [obj valueForKey:@"english_meaning"];
 }
 
 - (void)insertNewObject
@@ -265,4 +296,34 @@
     }
 }
 
+- (void) searchBarTextDidBeginEditing:(UISearchBar *)theSearchBar {
+}
+
+-(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
+    //Remove all objects first.
+    [self.items removeAllObjects];
+    [self searchTableView];
+    [self.tableView reloadData];
+}
+
+- (void) searchTableView {
+    NSString *searchText = self.searchText.text;
+  
+    int i = 0 ;
+    for ( NSDictionary *item in self.itemsCopy)
+    {
+        NSString *sTemp = [item valueForKey:@"english"];
+        if (searchText.length > 0){
+            NSRange titleResultsRange = [sTemp rangeOfString:searchText options:NSCaseInsensitiveSearch];
+            if (titleResultsRange.length > 0) [self.items addObject:item];
+        }else{
+            [self.items addObject:item];
+        }
+        i++;
+    }
+}
+
+-(void) searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+    [self.searchText resignFirstResponder];
+}
 @end

@@ -43,7 +43,7 @@ NSManagedObjectContext *__context;
     NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
     NSError *e   = nil;
     NSMutableArray *array = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:&e];
-   
+    
     self.list = [[NSMutableArray alloc] initWithCapacity:[array count]];
     for (NSDictionary *dict in array){
         Word *word = [[Word alloc] init];

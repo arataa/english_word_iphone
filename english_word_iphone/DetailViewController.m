@@ -16,7 +16,9 @@
 @implementation DetailViewController
 
 @synthesize detailItem = _detailItem;
+@synthesize english = _english;
 @synthesize detailDescriptionLabel = _detailDescriptionLabel;
+@synthesize detailDescriptionLabel2 = _detailDescriptionLabel2;
 @synthesize masterPopoverController = _masterPopoverController;
 
 #pragma mark - Managing the detail item
@@ -40,7 +42,9 @@
     // Update the user interface for the detail item.
 
     if (self.detailItem) {
-        self.detailDescriptionLabel.text = [self.detailItem description];
+        self.english.text = [self.detailItem english];
+        self.detailDescriptionLabel.text = [self.detailItem english_meaning];
+        self.detailDescriptionLabel2.text = [self.detailItem japanese_meaning];
     }
 }
 
@@ -61,6 +65,8 @@
 
 - (void)viewDidUnload
 {
+    [self setDetailDescriptionLabel2:nil];
+    [self setEnglish:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
