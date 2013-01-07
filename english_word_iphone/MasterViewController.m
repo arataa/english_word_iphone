@@ -14,7 +14,7 @@
 @property (strong, nonatomic) NSMutableArray *items;
 @property (strong, nonatomic) NSMutableArray *itemsCopy;
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
-- (void) searchTableView;
+- (void) searchTableView : (NSString  *) searchText;
 @end
 
 @implementation MasterViewController
@@ -22,7 +22,6 @@
 @synthesize detailViewController = _detailViewController;
 @synthesize fetchedResultsController = __fetchedResultsController;
 @synthesize managedObjectContext = __managedObjectContext;
-@synthesize searchText = _searchText;
 @synthesize items = _items;
 @synthesize itemsCopy = _itemsCopy;
 
@@ -53,9 +52,17 @@
 
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject)];
     self.navigationItem.rightBarButtonItem = addButton;
+    
+    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(-5.0, 0.0, 320.0, 44.0)];
+    searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    searchBar.delegate = self;
+    UIView *searchView =  [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 310.0, 44.0)];
+    searchView.autoresizingMask = 0;
+    [searchView addSubview:searchBar];
+    self.navigationItem.titleView = searchView;
    
     //searchボタンをdoneに
-    for (UIView *searchBarSubview in [self.searchText subviews]) {
+    for (UIView *searchBarSubview in [searchBar subviews]) {
         if ([searchBarSubview conformsToProtocol:@protocol(UITextInputTraits)]) {
             @try {
                 [(UITextField *)searchBarSubview setReturnKeyType:UIReturnKeyDone];
@@ -72,7 +79,6 @@
 
 - (void)viewDidUnload
 {
-    [self setSearchText:nil];
     
     [super viewDidUnload];
     // Release any retained subviews of the main view.
@@ -82,6 +88,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    self.fetchedResultsController = nil;
+    [self.tableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -193,7 +201,7 @@
 
     Word *word = [[Word alloc] init];
     //[word get_words_rest];
-    __fetchedResultsController = [word get];
+    __fetchedResultsController = [word get:nil];
     
     self.items = [[NSMutableArray alloc] init];
     self.itemsCopy = [[NSMutableArray alloc] init];
@@ -279,10 +287,6 @@
     NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
     NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
     
-    // If appropriate, configure the new managed object.
-    // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
-    [newManagedObject setValue:[NSDate date] forKey:@"timeStamp"];
-    
     // Save the context.
     NSError *error = nil;
     if (![context save:&error]) {
@@ -302,13 +306,11 @@
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
     //Remove all objects first.
     [self.items removeAllObjects];
-    [self searchTableView];
+    [self searchTableView : searchText];
     [self.tableView reloadData];
 }
 
-- (void) searchTableView {
-    NSString *searchText = self.searchText.text;
-  
+- (void) searchTableView : (NSString  *) searchText {  
     int i = 0 ;
     for ( NSDictionary *item in self.itemsCopy)
     {
@@ -324,6 +326,6 @@
 }
 
 -(void) searchBarSearchButtonClicked:(UISearchBar *)searchBar{
-    [self.searchText resignFirstResponder];
+    [searchBar resignFirstResponder];
 }
 @end

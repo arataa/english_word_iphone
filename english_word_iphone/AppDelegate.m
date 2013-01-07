@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 
 #import "MasterViewController.h"
+#import "SettingController.h"
 
 @implementation AppDelegate
 
@@ -29,9 +30,14 @@
         MasterViewController *controller = (MasterViewController *)masterNavigationController.topViewController;
         controller.managedObjectContext = self.managedObjectContext;
     } else {
-        UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
-        MasterViewController *controller = (MasterViewController *)navigationController.topViewController;
+        UITabBarController *tabController = (UITabBarController * )self.window.rootViewController;
+        [[tabController.viewControllers objectAtIndex:0] setTitle:@"List"];
+        [[tabController.viewControllers objectAtIndex:1] setTitle:@"Setting"];
+        UINavigationController *navigationController = [tabController.viewControllers objectAtIndex:0];
+        SettingController *settingController = (SettingController *)[tabController.viewControllers objectAtIndex:1];
+        MasterViewController *controller     = (MasterViewController *)navigationController.topViewController;
         controller.managedObjectContext = self.managedObjectContext;
+        
     }
     return YES;
 }

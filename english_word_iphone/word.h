@@ -18,5 +18,5 @@
 
 
 -(void)get_words_rest;
--(NSFetchedResultsController *)get;
+-(NSFetchedResultsController *)get:(NSNumber *)id;
 @end

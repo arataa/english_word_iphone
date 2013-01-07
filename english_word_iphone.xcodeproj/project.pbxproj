@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		977C9BA21698C74B0046369A /* SettingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 977C9BA11698C74B0046369A /* SettingController.m */; };
+		97A64538169A3B2E00EFB6B5 /* UpdateContoller.m in Sources */ = {isa = PBXBuildFile; fileRef = 97A64537169A3B2E00EFB6B5 /* UpdateContoller.m */; };
 		97CB05DB1694B36000AC212D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97CB05DA1694B36000AC212D /* UIKit.framework */; };
 		97CB05DD1694B36000AC212D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97CB05DC1694B36000AC212D /* Foundation.framework */; };
 		97CB05DF1694B36000AC212D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97CB05DE1694B36000AC212D /* CoreGraphics.framework */; };
@@ -39,6 +41,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		977C9BA01698C74B0046369A /* SettingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingController.h; sourceTree = "<group>"; };
+		977C9BA11698C74B0046369A /* SettingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingController.m; sourceTree = "<group>"; };
+		97A64536169A3B2E00EFB6B5 /* UpdateContoller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateContoller.h; sourceTree = "<group>"; };
+		97A64537169A3B2E00EFB6B5 /* UpdateContoller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateContoller.m; sourceTree = "<group>"; };
 		97CB05D61694B36000AC212D /* english_word_iphone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = english_word_iphone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97CB05DA1694B36000AC212D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		97CB05DC1694B36000AC212D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -93,6 +99,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		977C9B9E1698C7220046369A /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				97CB05F71694B36000AC212D /* MasterViewController.h */,
+				97CB05F81694B36000AC212D /* MasterViewController.m */,
+				97CB05FA1694B36000AC212D /* DetailViewController.h */,
+				97CB05FB1694B36000AC212D /* DetailViewController.m */,
+				977C9BA01698C74B0046369A /* SettingController.h */,
+				977C9BA11698C74B0046369A /* SettingController.m */,
+				97A64536169A3B2E00EFB6B5 /* UpdateContoller.h */,
+				97A64537169A3B2E00EFB6B5 /* UpdateContoller.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
 		97CB05CB1694B36000AC212D = {
 			isa = PBXGroup;
 			children = (
@@ -127,15 +148,12 @@
 		97CB05E21694B36000AC212D /* english_word_iphone */ = {
 			isa = PBXGroup;
 			children = (
+				977C9B9E1698C7220046369A /* Controller */,
 				97CB06251694B4AB00AC212D /* Model */,
 				97CB05EB1694B36000AC212D /* AppDelegate.h */,
 				97CB05EC1694B36000AC212D /* AppDelegate.m */,
 				97CB05EE1694B36000AC212D /* MainStoryboard_iPhone.storyboard */,
 				97CB05F11694B36000AC212D /* MainStoryboard_iPad.storyboard */,
-				97CB05F71694B36000AC212D /* MasterViewController.h */,
-				97CB05F81694B36000AC212D /* MasterViewController.m */,
-				97CB05FA1694B36000AC212D /* DetailViewController.h */,
-				97CB05FB1694B36000AC212D /* DetailViewController.m */,
 				97CB05F41694B36000AC212D /* english_word_iphone.xcdatamodeld */,
 				97CB05E31694B36000AC212D /* Supporting Files */,
 			);
@@ -294,6 +312,8 @@
 				97CB05F91694B36000AC212D /* MasterViewController.m in Sources */,
 				97CB05FC1694B36000AC212D /* DetailViewController.m in Sources */,
 				97CB06281694B4DA00AC212D /* word.m in Sources */,
+				977C9BA21698C74B0046369A /* SettingController.m in Sources */,
+				97A64538169A3B2E00EFB6B5 /* UpdateContoller.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

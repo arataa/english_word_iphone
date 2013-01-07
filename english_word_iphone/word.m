@@ -35,8 +35,7 @@ NSManagedObjectContext *__context;
 }
 
 -(void)get_words_rest{
-    NSString *site = [NSString stringWithString:
-                      @"http://0.0.0.0:3000/main/get_words"];
+    NSString *site = @"http://0.0.0.0:3000/main/get_words";
     NSURL *url = [NSURL URLWithString:site];
     NSURLResponse* response = nil;
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
@@ -64,33 +63,43 @@ NSManagedObjectContext *__context;
 }
 
 -(void)update{
-    NSManagedObject* newObject = [NSEntityDescription insertNewObjectForEntityForName:@"Word" inManagedObjectContext:__context]; 
+    NSFetchedResultsController *fetchRequestController = [self get:self.id];
+    NSArray *result = fetchRequestController.fetchedObjects;
+    NSManagedObject* newObject;
+    if ( [result count] > 0) {
+        newObject = [result objectAtIndex:0];
+    }else{
+        newObject = [NSEntityDescription insertNewObjectForEntityForName:@"Word" inManagedObjectContext:__context];
+    }
+    
     [newObject setValue:self.id forKey:@"id"];
     [newObject setValue:self.english forKey:@"english"];
     [newObject setValue:self.english_meaning forKey:@"english_meaning"];
     [newObject setValue:self.japanese_meaning forKey:@"japanese_meaning"];
 }
 
--(NSFetchedResultsController*)get{
+-(NSFetchedResultsController*)get:(NSNumber*)id{
     // DBから読み取るためのリクエストを作成
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-
+    
     // 取得するエンティティを設定
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Word" inManagedObjectContext:__context];
     [fetchRequest setEntity:entityDescription];
 
     // ソート条件配列を作成
     NSSortDescriptor *desc;
-    desc = [[NSSortDescriptor alloc] initWithKey:@"id" ascending:YES];
+    desc = [[NSSortDescriptor alloc] initWithKey:@"english" ascending:YES selector:@selector(caseInsensitiveCompare:)];
 
     NSArray *sortDescriptors;
     sortDescriptors = [[NSArray alloc] initWithObjects:desc, nil];
     [fetchRequest setSortDescriptors:sortDescriptors];
 
     // 取得条件の設定
-    //NSPredicate *pred;
-    //pred = [NSPredicate predicateWithFormat:@"id = %@", @""];
-    //[fetchRequest setPredicate:pred];
+    if ( id != nil) {
+        NSPredicate *pred;
+        pred = [NSPredicate predicateWithFormat:@"id = %@", id];
+        [fetchRequest setPredicate:pred];
+    }
 
     // 取得最大数の設定
     [fetchRequest setFetchBatchSize:1];
@@ -110,7 +119,8 @@ NSManagedObjectContext *__context;
     }
 
     // 取得結果は[fetchedObjects]プロパティに入っている
-    NSArray *result = resultsController.fetchedObjects;
+    //NSArray *result = resultsController.fetchedObjects;
+    
     return resultsController;
      
     /*
