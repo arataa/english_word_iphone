@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "word.h"
+#import "UpdateController.h"
 
 @interface DetailViewController : UIViewController <UISplitViewControllerDelegate>
 
@@ -16,5 +17,6 @@
 
 @property (strong, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
 @property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel2;
+@property (strong, nonatomic) UpdateController *updateController;
 
 @end

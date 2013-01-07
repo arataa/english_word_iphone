@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface UpdateContoller : UITableViewController
+@interface UpdateController : UITableViewController
 
 @property(nonatomic, strong) NSNumber *id;
 @end

@@ -19,4 +19,5 @@
 
 -(void)get_words_rest;
 -(NSFetchedResultsController *)get:(NSNumber *)id;
+-(void)update;
 @end

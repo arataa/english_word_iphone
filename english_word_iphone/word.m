@@ -11,7 +11,6 @@
 
 @interface Word()
 -(void)mapping:(NSDictionary *)dict;
--(void)update;
 @end
 
 @implementation Word

@@ -8,6 +8,7 @@
 
 #import "DetailViewController.h"
 
+
 @interface DetailViewController ()
 @property (strong, nonatomic) UIPopoverController *masterPopoverController;
 - (void)configureView;
@@ -17,9 +18,10 @@
 
 @synthesize detailItem = _detailItem;
 @synthesize english = _english;
-@synthesize detailDescriptionLabel = _detailDescriptionLabel;
+@synthesize detailDescriptionLabel  = _detailDescriptionLabel;
 @synthesize detailDescriptionLabel2 = _detailDescriptionLabel2;
 @synthesize masterPopoverController = _masterPopoverController;
+@synthesize updateController        = _updateController;
 
 #pragma mark - Managing the detail item
 
@@ -59,6 +61,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.updateController = (UpdateController *)[[self.splitViewController.viewControllers lastObject] topViewController];
 	// Do any additional setup after loading the view, typically from a nib.
     [self configureView];
 }
@@ -118,4 +121,8 @@
     self.masterPopoverController = nil;
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    [[segue destinationViewController] setId:self.detailItem.id];
+}
 @end
