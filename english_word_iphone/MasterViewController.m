@@ -9,6 +9,7 @@
 #import "MasterViewController.h"
 #import "word.h"
 #import "DetailViewController.h"
+#import "UpdateController.h"
 
 @interface MasterViewController ()
 @property (strong, nonatomic) NSMutableArray *items;
@@ -50,9 +51,6 @@
     // Set up the edit and add buttons.
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
 
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject)];
-    self.navigationItem.rightBarButtonItem = addButton;
-    
     UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(-5.0, 0.0, 320.0, 44.0)];
     searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     searchBar.delegate = self;
@@ -165,7 +163,9 @@
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
             abort();
         }
-    }   
+    }
+    [self.items removeObjectAtIndex:indexPath.row];
+    [self.tableView reloadData];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
@@ -212,6 +212,9 @@
     }
     return __fetchedResultsController;
 }    
+
+- (IBAction)propertyweaknonatomicIBOutletUIBarButtonIteminsertNewObjectpropertyweaknonatomicIBOutletUIBarButtonIteminsertNewObjectinsertNewObject:(id)sender {
+}
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
@@ -278,26 +281,6 @@
     NSManagedObject *obj = [self.items objectAtIndex:indexPath.row];
     cell.textLabel.text       = [obj valueForKey:@"english"];
     cell.detailTextLabel.text = [obj valueForKey:@"english_meaning"];
-}
-
-- (void)insertNewObject
-{
-    // Create a new instance of the entity managed by the fetched results controller.
-    NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-    NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
-    NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
-    
-    // Save the context.
-    NSError *error = nil;
-    if (![context save:&error]) {
-        /*
-         Replace this implementation with code to handle the error appropriately.
-         
-         abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
-         */
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
 }
 
 - (void) searchBarTextDidBeginEditing:(UISearchBar *)theSearchBar {

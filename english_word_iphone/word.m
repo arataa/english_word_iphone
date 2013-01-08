@@ -11,6 +11,7 @@
 
 @interface Word()
 -(void)mapping:(NSDictionary *)dict;
+-(NSMutableDictionary *)mapping_to_dict;
 @end
 
 @implementation Word
@@ -33,8 +34,8 @@ NSManagedObjectContext *__context;
     return self;
 }
 
--(void)get_words_rest{
-    NSString *site = @"http://0.0.0.0:3000/main/get_words";
+-(BOOL)get_words_rest{
+    NSString *site = [NSString stringWithFormat:@"%@%@%@",WEBSITE_URL,@"/",GET_REST];
     NSURL *url = [NSURL URLWithString:site];
     NSURLResponse* response = nil;
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
@@ -51,7 +52,42 @@ NSManagedObjectContext *__context;
     }
     if (![__context save:&e]) {
         NSLog(@"Unresolved error %@, %@", e, [e userInfo]);
-    } 
+        return false;
+    }
+    return true;
+}
+
+-(BOOL)update_words_rest{
+
+    NSArray *results     = [[self get:nil] fetchedObjects];
+    NSMutableArray *post = [[NSMutableArray alloc]init ];
+    for (NSManagedObject *result in results){
+        NSArray *keys = [[[result entity] attributesByName] allKeys];
+        NSDictionary *dict = [result dictionaryWithValuesForKeys:keys];
+        [post addObject:dict];
+    }
+
+    NSError *e = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:post
+           options:NSJSONWritingPrettyPrinted error:&e];
+    NSString *json_str = [[NSString alloc]initWithData:jsonData encoding:NSUTF8StringEncoding];
+    
+    NSString *site = [NSString stringWithFormat:@"%@%@%@",WEBSITE_URL,@"/",UPDATE_REST];
+    NSURL *url = [NSURL URLWithString:site];
+    NSURLResponse* response = nil;
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:[json_str dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    NSData* data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+    NSString *res = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    if ( res == @"true" ){
+        return true;
+    } else{
+        return false;
+    }
+        
 }
 
 -(void)mapping:(NSDictionary *)dict{
@@ -59,6 +95,24 @@ NSManagedObjectContext *__context;
     self.english          = [dict objectForKey:@"english"];
     self.english_meaning  = [dict objectForKey:@"english_meaning"];
     self.japanese_meaning = [dict objectForKey:@"japanese_meaning"];
+}
+
+-(NSMutableDictionary *)mapping_to_dict
+{
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    [dict setObject:self.id               forKey:@"id"];
+    [dict setObject:self.english          forKey:@"english"];
+    [dict setObject:self.english_meaning  forKey:@"english_meaning"];
+    [dict setObject:self.japanese_meaning forKey:@"japanese_meaning"];
+    return dict;
+}
+
+-(void)save
+{
+    NSError *e   = nil;
+    if (![__context save:&e]) {
+        NSLog(@"Unresolved error %@, %@", e, [e userInfo]);
+    } 
 }
 
 -(void)update{

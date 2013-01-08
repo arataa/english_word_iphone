@@ -14,6 +14,7 @@
 @property(nonatomic, strong) UITextField *english_meaning;
 @property(nonatomic, strong) UITextField *japanese_meaning;
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
+- (void)updateObject;
 @end
 
 @implementation UpdateController
@@ -43,11 +44,14 @@
         word.japanese_meaning = @"";
     }
     
-    self.english          = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 300, 40)];
+    CGFloat offsetx = 20;
+    CGFloat offsety = 10;
+    
+    self.english          = [[UITextField alloc] initWithFrame:CGRectMake(offsetx, offsety, 280, 30)];
     self.english.text                  = word.english;
-    self.english_meaning  = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 300, 40)];
+    self.english_meaning  = [[UITextField alloc] initWithFrame:CGRectMake(offsetx, offsety, 280, 30)];
     self.english_meaning.text          = word.english_meaning;
-    self.japanese_meaning = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 300, 40)];
+    self.japanese_meaning = [[UITextField alloc] initWithFrame:CGRectMake(offsetx, offsety, 280, 30)];
     self.japanese_meaning.text         = word.japanese_meaning;
     
     self.tableView.dataSource = self;
@@ -56,7 +60,7 @@
     NSArray *japanese_meaning_rows = [[NSArray alloc] initWithObjects:self.japanese_meaning,nil];
     self.sections    = [[NSDictionary alloc] initWithObjectsAndKeys:english_rows,@"English",english_meaning_rows,@"English Meaning",japanese_meaning_rows,@"Japanese Meaning", nil];
     
-    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(updateObject)];
+    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave target:self action:@selector(updateObject)];
     self.navigationItem.rightBarButtonItem = saveButton;
 }
 
@@ -90,11 +94,15 @@
     [cell addSubview:[rows objectAtIndex:indexPath.row]];
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    return [[self.sections allKeys] objectAtIndex:section];
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 }
 
--(void)updateObject:(id)selector
+-(void)updateObject
 {
     Word *word            = [[Word alloc] init];
     word.english          = self.english.text;
@@ -102,6 +110,10 @@
     word.japanese_meaning = self.japanese_meaning.text;
     word.id               = self.id;
     [word update];
+    [word save];
+    
+    UIAlertView *resultAlert = [[UIAlertView alloc] initWithTitle:nil message:@"Complete！" delegate:self cancelButtonTitle:NSLocalizedString(@"OK",nil) otherButtonTitles:nil, nil];
+    [resultAlert show];
 }
 
 @end

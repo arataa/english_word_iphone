@@ -28,6 +28,7 @@
 		97CB060F1694B36100AC212D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 97CB060D1694B36100AC212D /* InfoPlist.strings */; };
 		97CB06121694B36100AC212D /* english_word_iphoneTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CB06111694B36100AC212D /* english_word_iphoneTests.m */; };
 		97CB06281694B4DA00AC212D /* word.m in Sources */ = {isa = PBXBuildFile; fileRef = 97CB06271694B4DA00AC212D /* word.m */; };
+		97DD882E169CC7D000B7F2B6 /* GrobalResource.m in Sources */ = {isa = PBXBuildFile; fileRef = 97DD882D169CC7D000B7F2B6 /* GrobalResource.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,7 +44,7 @@
 /* Begin PBXFileReference section */
 		977C9BA01698C74B0046369A /* SettingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingController.h; sourceTree = "<group>"; };
 		977C9BA11698C74B0046369A /* SettingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingController.m; sourceTree = "<group>"; };
-		97A64536169A3B2E00EFB6B5 /* UpdateController.h */ = {isa = PBXFileReference; fileEncoding = 4; path = UpdateController.h; sourceTree = "<group>"; };
+		97A64536169A3B2E00EFB6B5 /* UpdateController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateController.h; sourceTree = "<group>"; };
 		97A64537169A3B2E00EFB6B5 /* UpdateController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateController.m; sourceTree = "<group>"; };
 		97CB05D61694B36000AC212D /* english_word_iphone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = english_word_iphone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97CB05DA1694B36000AC212D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -71,6 +72,8 @@
 		97CB06111694B36100AC212D /* english_word_iphoneTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = english_word_iphoneTests.m; sourceTree = "<group>"; };
 		97CB06261694B4DA00AC212D /* word.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = word.h; sourceTree = "<group>"; };
 		97CB06271694B4DA00AC212D /* word.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = word.m; sourceTree = "<group>"; };
+		97DD882C169CC7D000B7F2B6 /* GrobalResource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GrobalResource.h; sourceTree = "<group>"; };
+		97DD882D169CC7D000B7F2B6 /* GrobalResource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GrobalResource.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +170,8 @@
 				97CB05E51694B36000AC212D /* InfoPlist.strings */,
 				97CB05E81694B36000AC212D /* main.m */,
 				97CB05EA1694B36000AC212D /* english_word_iphone-Prefix.pch */,
+				97DD882C169CC7D000B7F2B6 /* GrobalResource.h */,
+				97DD882D169CC7D000B7F2B6 /* GrobalResource.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -314,6 +319,7 @@
 				97CB06281694B4DA00AC212D /* word.m in Sources */,
 				977C9BA21698C74B0046369A /* SettingController.m in Sources */,
 				97A64538169A3B2E00EFB6B5 /* UpdateController.m in Sources */,
+				97DD882E169CC7D000B7F2B6 /* GrobalResource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -45,7 +45,7 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
 
-    
+    cell.accessoryType  = UITableViewCellAccessoryDisclosureIndicator;
     [self configureCell:cell atIndexPath:indexPath];
     return cell;
 }
@@ -58,10 +58,26 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    BOOL result;
     if ( indexPath.section == 0 && indexPath.row == 1) {
         Word *word = [[Word alloc] init];
-        [word get_words_rest];
+        result = [word get_words_rest];
     }
+    
+    if ( indexPath.section == 0 && indexPath.row == 0) {
+        Word *word = [[Word alloc] init];
+        result = [word update_words_rest];
+    }
+  
+    NSString *message = @"";
+    if ( result == true) {
+        message = @"Complete!";
+    }else{
+        message = @"Failed";
+    }
+    UIAlertView *resultAlert = [[UIAlertView alloc] initWithTitle:nil message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    [resultAlert show];
 }
 
 @end

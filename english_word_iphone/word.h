@@ -17,7 +17,9 @@
 @property(nonatomic,retain) NSMutableArray *list;
 
 
--(void)get_words_rest;
+-(BOOL)get_words_rest;
 -(NSFetchedResultsController *)get:(NSNumber *)id;
 -(void)update;
+-(BOOL)update_words_rest;
+-(void)save;
 @end

@@ -34,7 +34,6 @@
         [[tabController.viewControllers objectAtIndex:0] setTitle:@"List"];
         [[tabController.viewControllers objectAtIndex:1] setTitle:@"Setting"];
         UINavigationController *navigationController = [tabController.viewControllers objectAtIndex:0];
-        SettingController *settingController = (SettingController *)[tabController.viewControllers objectAtIndex:1];
         MasterViewController *controller     = (MasterViewController *)navigationController.topViewController;
         controller.managedObjectContext = self.managedObjectContext;
         
